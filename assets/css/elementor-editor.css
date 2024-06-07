@@ -11,3 +11,10 @@
 .elementor-editor-preview #elementor-editor-wrapper{
     height: 100vh;
 }
+#elementor-panel-get-pro-elements{
+    display: none !important;
+}
+
+
+/* .elementor-button-wrapper.slide a:hover:before{
+} */

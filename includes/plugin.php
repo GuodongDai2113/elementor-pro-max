@@ -37,11 +37,12 @@ final class Plugin
     {
 
         add_action('elementor/init', [$this, 'base_init']);
-        // add_action('elementor_pro/init', [$this, 'pro_init']);
+        add_action('elementor_pro/init', [$this, 'pro_init']);
     }
 
-    public function load(){
-        require_once( __DIR__ . '/controls/inject.php' );
+    public function load()
+    {
+        require_once(__DIR__ . '/controls/inject.php');
     }
 
     public function base_init()
@@ -50,13 +51,18 @@ final class Plugin
 
         $this->inject_controls = new Inject_Controls();
 
-        add_action('elementor/editor/before_enqueue_scripts', [$this,'editor_style']);
-        add_action('elementor/frontend/before_enqueue_scripts', [$this,'pro_max_style']);
-
+        add_action('elementor/editor/before_enqueue_scripts', [$this, 'editor_style']);
+        add_action('elementor/frontend/before_enqueue_scripts', [$this, 'pro_max_style']);
     }
 
-    public function pro_init(){
-
+    public function pro_init()
+    {
+        add_filter('elementor/editor/panel/get_pro_details', function ($get_pro_details) {
+            $get_pro_details['link'] = '';
+            $get_pro_details['message'] = '如果你看见他说明css没生效';
+            $get_pro_details['button_text'] = '广告真是太烦了';
+            return $get_pro_details;
+        });
     }
 
     public function editor_style(): void

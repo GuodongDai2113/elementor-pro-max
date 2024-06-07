@@ -1,3 +1,48 @@
 .elementor-heading-title{
     transition: color .3s ease-in-out;
 }
+
+.slide a{
+    position: relative;
+    overflow: hidden;
+    display: block;
+}
+.slide a span{
+    z-index: 1;
+}
+.slide a:before{
+    content:'';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    transition: all .3s ease-in-out;
+}
+.slide.to-right a:before{
+    left: -110%;
+}
+.slide.to-right a:hover:before{
+    left: 0;
+}
+.slide.to-left a:before{
+    right: -110%;
+}
+.slide.to-left a:hover:before{
+    right: 0;
+}
+
+.slide.to-top a:before{
+    top: unset;
+    bottom: -110%;
+    left: 0;
+}
+.slide.to-top a:hover:before{
+    bottom: 0;
+}
+.slide.to-bottom a:before{
+    top: -110%;
+    left: 0;
+}
+.slide.to-bottom a:hover:before{
+    top: 0;
+}
