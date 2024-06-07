@@ -1,0 +1,13 @@
+.elementor-editor-preview #elementor-editor-wrapper-v2 header{
+    position: absolute;
+    top: -48px;
+}
+#elementor-editor-wrapper-v2 header{
+    transition: all .5s ease-in-out;
+}
+#elementor-editor-wrapper-v2 header{
+    background: #4481eb;
+}
+.elementor-editor-preview #elementor-editor-wrapper{
+    height: 100vh;
+}
