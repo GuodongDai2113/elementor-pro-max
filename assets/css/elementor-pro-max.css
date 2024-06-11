@@ -1,48 +1,58 @@
-.elementor-heading-title{
+.elementor-heading-title {
     transition: color .3s ease-in-out;
 }
 
-.slide a{
+.slide a {
     position: relative;
     overflow: hidden;
-    display: block;
+    vertical-align: top;
+    /* 解决 display: inline-block; 空隙问题 */
 }
-.slide a span{
+
+.slide a span {
     z-index: 1;
 }
-.slide a:before{
-    content:'';
+
+.slide a:before {
+    content: '';
     position: absolute;
     height: 100%;
     width: 100%;
     top: 0;
     transition: all .3s ease-in-out;
 }
-.slide.to-right a:before{
+
+.slide.to-right a:before {
     left: -110%;
 }
-.slide.to-right a:hover:before{
+
+.slide.to-right a:hover:before {
     left: 0;
 }
-.slide.to-left a:before{
+
+.slide.to-left a:before {
     right: -110%;
 }
-.slide.to-left a:hover:before{
+
+.slide.to-left a:hover:before {
     right: 0;
 }
 
-.slide.to-top a:before{
+.slide.to-top a:before {
     top: unset;
     bottom: -110%;
     left: 0;
 }
-.slide.to-top a:hover:before{
+
+.slide.to-top a:hover:before {
     bottom: 0;
 }
-.slide.to-bottom a:before{
+
+.slide.to-bottom a:before {
     top: -110%;
     left: 0;
 }
-.slide.to-bottom a:hover:before{
+
+.slide.to-bottom a:hover:before {
     top: 0;
 }

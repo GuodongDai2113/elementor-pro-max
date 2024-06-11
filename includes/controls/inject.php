@@ -13,19 +13,57 @@ if (!defined('ABSPATH')) {
 
 class Inject_Controls
 {
+    public $heading_controls = null;
+    public $button_controls = null;
+    public $image_controls = null;
+    public $icon_box_controls = null;
+    public $post_content_controls = null;
+
+    /**
+     * 定义一个静态属性，用于指定注入内容的位置。
+     * 
+     * @var string
+     */
+    public static $inject_position = 'after_section_end';
 
     public function __construct()
     {
-        add_action('elementor/element/heading/section_title_style/after_section_start', [$this, 'heading_controls'], 10, 2);
-        add_action('elementor/element/button/section_button/after_section_end', [$this, 'button_controls'], 10, 2);
-        add_action('elementor/element/button/section_style/after_section_start', [$this, 'button_style_controls'], 10, 2);
-        add_action('elementor/element/image/section_image/before_section_end', [$this, 'image_controls'], 10, 2);
-        add_action('elementor/element/theme-post-content/section_style/before_section_end', [$this, 'post_content_controls'], 10, 2);
-        add_action('elementor/element/icon-box/section_icon/before_section_end', [$this, 'icon_box_content_controls'], 10, 2);
-        add_action('elementor/element/icon-box/section_style_box/before_section_end', [$this, 'icon_box_style_controls'], 10, 2);
 
-        add_filter('elementor/widget/render_content', [$this, 'change_widget_content'], 10, 2);
+        $this->inject_controls('heading', 'section_title_style', [$this, 'heading_style_controls']);
+        // add_action('elementor/element/heading/section_title_style/after_section_end', [$this, 'heading_controls'], 10, 2);
+        // add_action('elementor/element/button/section_button/after_section_end', [$this, 'button_controls'], 10, 2);
+        // add_action('elementor/element/button/section_style/after_section_end', [$this, 'button_style_controls'], 10, 2);
+        // add_action('elementor/element/image/section_image/after_section_end', [$this, 'image_controls'], 10, 2);
+        // add_action('elementor/element/theme-post-content/section_style/after_section_end', [$this, 'post_content_controls'], 10, 2);
+        // add_action('elementor/element/icon-box/section_icon/after_section_end', [$this, 'icon_box_content_controls'], 10, 2);
+        // add_action('elementor/element/icon-box/section_style_box/after_section_end', [$this, 'icon_box_style_controls'], 10, 2);
+
+        // add_filter('elementor/widget/render_content', [$this, 'change_widget_content'], 10, 2);
         // add_filter('elementor/widget/print_template', [$this, 'change_widget_template'], 10, 2);
+    }
+
+    /**
+     * 注入自定义控制项到Elementor小部件的特定部分。
+     * 
+     * 通过使用WordPress的add_action函数，在Elementor编辑器中指定小部件的特定部分添加自定义控制项。
+     * 此方法使得开发者可以在不修改Elementor核心代码的情况下，扩展或修改Elementor小部件的界面和功能。
+     * 
+     * @param string $widget_name 小部件的名称。这是Elementor中小部件的唯一标识符。
+     * @param string $section_name 小部件内部的特定部分名称，控制项将被注入到这个部分。
+     * @param callable $cb 一个回调函数，它定义了控制项的具体实现和行为。
+     *                     这个回调函数将在Elementor编辑器中指定的小部件部分被调用。
+     */
+    public function inject_controls($widget_name, $section_name, $cb)
+    {
+        // 构建钩子名称，确保它与Elementor的钩子命名规范一致。
+        $hook_name = 'elementor/element/' . $widget_name . '/' . $section_name . '/' . self::$inject_position;
+        
+        // 使用add_action注册回调函数，以便在Elementor编辑器的指定位置注入自定义控制项。
+        // 参数1: 钩子名称，确定回调函数将被触发的位置。
+        // 参数2: 回调函数，定义了控制项的具体行为。
+        // 参数3: 优先级，控制回调函数的执行顺序。较低的数字表示较高的优先级。
+        // 参数4: 参数数量，告诉WordPress回调函数期望接收的参数数量。
+        add_action($hook_name, $cb, 10, 2);
     }
 
     public function heading_controls($element, $args)
@@ -332,21 +370,4 @@ class Inject_Controls
         return $widget_content;
     }
 
-    // public function change_widget_template($template, $widget )
-    // {
-    //     $settings = $widget->get_settings();
-    //     if ('icon-box' === $widget->get_name()) {
-            
-    //         if (!empty($settings['box_link']['url'])) {
-    //             $template = '<a href=' . $settings['box_link']['url'] . '>' . $template . '</a>';
-    //         }
-    //     }
-    //     if ('button' === $widget->get_name()) {
-    //         if ($settings['hover_background_animation'] == 'slide') {
-    //             $template = str_replace('elementor-button-wrapper', 'elementor-button-wrapper slide ' . $settings['slide_animation'], $template);
-    //         }
-    //     }
-    //     return $template;
-    // }
 }
-
