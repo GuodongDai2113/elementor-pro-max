@@ -34,7 +34,9 @@ class Button extends Base_Controls
                 'default' => '',
                 'options' => [
                     '' => esc_html__('默认', 'elementor-pro-max'),
-                    'slide' => esc_html__('滑动', 'elementor-pro-max'),
+                    'elepm-slide' => esc_html__('滑动', 'elementor-pro-max'),
+                    'elepm-zoom' => esc_html__('缩放', 'elementor-pro-max'),
+                    'elepm-circle-zoom' => esc_html__('圆形缩放', 'elementor-pro-max'),
                 ],
             ]
         );
@@ -43,29 +45,47 @@ class Button extends Base_Controls
             [
                 'label' => esc_html__('方向', 'elementor-pro-max'),
                 'type' => Controls_Manager::SELECT,
-                'default' => 'to-left',
+                'default' => 'left',
                 'options' => [
-                    'to-left' => esc_html__('向左', 'elementor-pro-max'),
-                    'to-right' => esc_html__('向右', 'elementor-pro-max'),
-                    'to-top' => esc_html__('向上', 'elementor-pro-max'),
-                    'to-bottom' => esc_html__('向下', 'elementor-pro-max'),
+                    'left' => esc_html__('向左', 'elementor-pro-max'),
+                    'right' => esc_html__('向右', 'elementor-pro-max'),
+                    'top' => esc_html__('向上', 'elementor-pro-max'),
+                    'bottom' => esc_html__('向下', 'elementor-pro-max'),
                 ],
                 'condition' => [
-                    'hover_background_animation' => 'slide'
+                    'hover_background_animation' => 'elepm-slide'
                 ],
             ]
         );
+
         $element->add_control(
-            'slide_animation_color',
+            'zoom_animation',
+            [
+                'label' => esc_html__('方向', 'elementor-pro-max'),
+                'description'=> esc_html__('注意圆形缩放是使用aspect-ratio，需要自 2021 年 9 月以后的浏览器。', 'elementor-pro-max'),
+                'type' => Controls_Manager::SELECT,
+                'default' => 'in',
+                'options' => [
+                    'in' => esc_html__('放大', 'elementor-pro-max'),
+                    'out' => esc_html__('缩小', 'elementor-pro-max'),
+                ],
+                'condition' => [
+                    'hover_background_animation' => ['elepm-zoom','elepm-circle-zoom'],
+                ],
+            ]
+        );
+
+        $element->add_control(
+            'animation_color',
             [
                 'label' => esc_html__('背景颜色', 'elementor-pro-max'),
                 'type' => Controls_Manager::COLOR,
-                'default' => '',
+                'default' => '#42a5f5',
                 'selectors' => [
-                    '.slide a:before' => 'background: {{VALUE}};',
+                    '{{WRAPPER}} a:before' => 'background: {{VALUE}};',
                 ],
                 'condition' => [
-                    'hover_background_animation' => 'slide'
+                    'hover_background_animation!' => ''
                 ],
             ]
 
@@ -76,8 +96,10 @@ class Button extends Base_Controls
     public function change_content($template, $widget){
         if ($this->get_name() === $widget->get_name()) {
             $settings = $widget->get_settings();
-            if ($settings['hover_background_animation'] == 'slide') {
-                $template = str_replace('elementor-button-wrapper', 'elementor-button-wrapper slide ' . $settings['slide_animation'], $template);
+            if ($settings['hover_background_animation'] == 'elepm-slide') {
+                $template = str_replace('elementor-button-wrapper', 'elementor-button-wrapper '.$settings['hover_background_animation']. ' ' . $settings['slide_animation'], $template);
+            }elseif ($settings['hover_background_animation'] == 'elepm-zoom' || $settings['hover_background_animation'] == 'elepm-circle-zoom') {
+                $template = str_replace('elementor-button-wrapper', 'elementor-button-wrapper '.$settings['hover_background_animation']. ' ' . $settings['zoom_animation'], $template);
             }
         }
         return $template;
@@ -85,10 +107,12 @@ class Button extends Base_Controls
 
     public function change_template($template, $widget){
         if ($this->get_name() === $widget->get_name()) {
-            // 要插入的新代码
+
             $additionalCode = "
-            if ( 'slide' === settings.hover_background_animation ) {
-                view.addRenderAttribute( 'wrapper', 'class', 'slide ' + settings.slide_animation );
+            if ( 'elepm-slide' === settings.hover_background_animation ) {
+                view.addRenderAttribute( 'wrapper', 'class', settings.hover_background_animation + ' ' + settings.slide_animation );
+            } else if ( 'elepm-zoom' === settings.hover_background_animation || 'elepm-circle-zoom' === settings.hover_background_animation ) {
+                view.addRenderAttribute( 'wrapper', 'class', settings.hover_background_animation + ' ' + settings.zoom_animation);
             }";
 
             // 使用正则表达式查找并在后面插入新代码

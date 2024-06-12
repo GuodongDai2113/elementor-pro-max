@@ -31,7 +31,7 @@ class Heading extends Base_Controls
                 'label' => esc_html__('悬停颜色', 'elementor-pro-max'),
                 'type' => Controls_Manager::COLOR,
                 'global' => [
-                    'default' => Global_Colors::COLOR_PRIMARY,
+                    'default' => '',
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .elementor-heading-title:hover' => 'color: {{VALUE}};',

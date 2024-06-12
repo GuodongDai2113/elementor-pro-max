@@ -48,7 +48,7 @@ class Image extends Base_Controls
             'ratio',
             [
                 'label' => esc_html__('比例', 'elementor-pro-max'),
-                'description' => esc_html__('设定后最好不要调节图片大小有关参数，可以修改高级设置里的宽度。', 'elementor-pro-max'),
+                'description' => esc_html__('设定后最好不要调节图片大小有关参数，可以修改高级设置里的宽度，需要自 2021 年 9 月以后的浏览器。', 'elementor-pro-max'),
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'default' => '',
                 'options' => [
