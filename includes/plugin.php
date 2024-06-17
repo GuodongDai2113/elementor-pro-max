@@ -4,6 +4,7 @@ namespace Elementor_Pro_Max;
 
 use Elementor_Pro_Max\Controls\Controls_Manager;
 use Elementor_Pro_Max\Widgets\Widgets_Manager;
+use Elementor_Pro_Max\Tags\Tags_Manager;
 
 defined('ABSPATH') || exit;
 
@@ -26,6 +27,8 @@ final class Plugin
     public $controls_manager = null;
 
     public $widgets_manager = null;
+
+    public $tags_manager = null;
 
     /**
      * 静态方法用于获取类的单例实例。
@@ -82,6 +85,8 @@ final class Plugin
         $this->controls_manager = new Controls_Manager();
 
         $this->widgets_manager = new Widgets_Manager();
+
+        $this->tags_manager = new Tags_Manager();
     }
 
     /**
