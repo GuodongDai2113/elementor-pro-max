@@ -12,7 +12,6 @@ class Tags_Manager{
 
     function register_new_dynamic_tags( $dynamic_tags_manager ) {
 
-        $dynamic_tags_manager->register( new Download_File_Tag() );
     
     }
 

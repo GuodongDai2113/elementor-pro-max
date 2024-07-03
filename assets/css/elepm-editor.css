@@ -1,0 +1,119 @@
+/* Begin 顶部菜单 */
+/* .elementor-editor-preview #elementor-editor-wrapper-v2 header {
+    position: absolute;
+    top: -48px;
+}
+
+#elementor-editor-wrapper-v2 header {
+    transition: all .5s ease-in-out;
+} */
+
+/* #elementor-editor-wrapper-v2 header {
+    background: #4481eb;
+} */
+/* 
+.elementor-editor-preview #elementor-editor-wrapper {
+    height: 100vh;
+}
+
+#elementor-panel-get-pro-elements {
+    display: none !important;
+} */
+
+/* End 顶部菜单 */
+
+/* Begin 全局颜色&字体 */
+/* .e-global__preview-items-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr)
+}
+
+.e-global__preview-item .e-global__color-preview-container {
+    margin-inline-end: 0
+}
+
+.e-global__preview-item.e-global__color {
+    position: relative;
+    padding: 10px 10px 13px 10px;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.e-global__preview-item .e-global__color-title {
+    text-align: center;
+    display: block;
+    width: 100%;
+    padding-inline-end: 0
+}
+
+.e-global__preview-item .e-global__color-hex {
+    text-align: center;
+    display: block;
+    width: 100%;
+}
+
+.e-global__preview-item .e-global__typography {
+    padding-inline: 10px;
+    text-align: center;
+} */
+
+/* End 全局颜色&字体 */
+
+#e-responsive-bar {
+    background-color: var(--e-a-dark-bg);
+}
+
+.elepm-note {
+    color: #818a96;
+    font-size: 11px;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+.elepm-note a {
+    color: #818a96;
+}
+
+.elepm-note a:hover {
+    color: #818a96;
+}
+
+
+
+
+/* [class*="control-elepm"] .elementor-section-title{
+    background: -webkit-linear-gradient(45deg, #29f19c, #02a1f9);
+    background: linear-gradient(45deg, #29f19c, #02a1f9);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+[class*="control-elepm"] .elementor-section-toggle
+{
+    color: #29f19c;
+} */
+
+:root {
+    --e-a-color-txt: #000000E0;
+    --e-a-color-primary: #02a1f9;
+    --e-a-color-primary-bold: #0083d4;
+    --e-a-btn-bg-primary: #02a1f9;
+    --e-a-btn-bg-primary-hover: #0083d4;
+    --e-a-btn-bg-primary-active: #0065ad;
+}
+
+#nprogress .bar{
+    height: 5px;
+    background:#02a1f9; 
+}
+
+#nprogress .peg{
+    box-shadow: 0 0 10px #02a1f9, 0 0 5px #02a1f9;
+}
+
+#nprogress .spinner-icon {
+    border-block-start-color: #02a1f9;
+    border-inline-start-color: #02a1f9;
+}

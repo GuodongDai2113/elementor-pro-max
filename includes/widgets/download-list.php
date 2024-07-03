@@ -18,19 +18,24 @@ class Download_List  extends Widget_Base
 
     public function get_title()
     {
-        return esc_html__('下载列表', 'elementor-pro-max');
+        return esc_html__('下载列表', 'elepm');
     }
 
     public function get_icon()
     {
-        return 'eicon-code';
+        return 'eicon-file-download';
     }
 
     public function get_categories()
     {
-        return ['elepm'];
+        return ['elepm-widget-category'];
     }
 
+
+    public function get_style_depends()
+    {
+        return ['elepm-download-list'];
+    }
     public function get_keywords()
     {
         return ['download', 'list'];
@@ -42,7 +47,7 @@ class Download_List  extends Widget_Base
         $this->start_controls_section(
             'content_section',
             [
-                'label' => esc_html__('内容', 'elementor-pro-max'),
+                'label' => esc_html__('内容', 'elepm'),
                 'tab' => Controls_Manager::TAB_CONTENT,
             ]
         );
@@ -50,7 +55,7 @@ class Download_List  extends Widget_Base
         $this->add_control(
             'icon',
             [
-                'label' => esc_html__('图标', 'elementor-pro-max'),
+                'label' => esc_html__('图标', 'elepm'),
                 'type' => \Elementor\Controls_Manager::ICONS,
                 'default' => [
                     'value' => 'fas fa-circle',
@@ -62,8 +67,7 @@ class Download_List  extends Widget_Base
         $this->add_control(
             'files',
             [
-                'label' => esc_html__('下载文件', 'elementor-pro-max'),
-                'description' => esc_html__('目前只能选择图片文件，可以通过ACF配合动态标签，选择文件', 'elementor-pro-max'),
+                'label' => esc_html__('下载文件', 'elepm'),
                 'type' => Controls_Manager::GALLERY,
                 'default' => [],
                 'dynamic' => [
@@ -72,62 +76,127 @@ class Download_List  extends Widget_Base
             ]
         );
 
+        $this->add_control(
+            'show_title',
+            [
+                'label' => esc_html__('显示标题', 'elepm'),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => esc_html__('标题', 'elepm'),
+                'label_off' => esc_html__('文件', 'elepm'),
+                'return_value' => 'yes',
+                'default' => '',
+            ]
+        );
+        $this->add_control(
+            'show_description',
+            [
+                'label' => esc_html__('显示描述', 'elepm'),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => esc_html__('显示', 'elepm'),
+                'label_off' => esc_html__('隐藏', 'elepm'),
+                'return_value' => 'yes',
+                'default' => '',
+            ]
+        );
+
+        $this->add_control(
+            'show_date',
+            [
+                'label' => esc_html__('显示日期', 'elepm'),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => esc_html__('显示', 'elepm'),
+                'label_off' => esc_html__('隐藏', 'elepm'),
+                'return_value' => 'yes',
+                'default' => 'yes',
+            ]
+        );
+
+        $this->add_control(
+            'show_extension',
+            [
+                'label' => esc_html__('显示拓展名', 'elepm'),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => esc_html__('显示', 'elepm'),
+                'label_off' => esc_html__('隐藏', 'elepm'),
+                'return_value' => 'yes',
+                'default' => 'yes',
+            ]
+        );
+
+
         $this->end_controls_section();
+    }
+
+
+
+    const MIME_TYPE_SEPARATOR = '/';
+
+    protected function get_file_info($id)
+    {
+        $file_info = [];
+        $file = get_post($id);
+        if (!$file) {
+            return $file_info; // 提前返回，避免处理无效文件
+        }
+
+        $file_info['id'] = $id;
+        $file_info['date'] = substr($file->post_date, 0, 10);
+        $file_info['description'] = $file->post_content;
+        $file_info['title'] = $file->post_title;
+        $file_info['name'] = $file->post_name;
+        $file_info['size'] = '';
+        $file_info['extension'] = strtoupper(substr($file->post_mime_type, strpos($file->post_mime_type, self::MIME_TYPE_SEPARATOR) + 1));
+
+        $file_meta = wp_get_attachment_metadata($id);
+        if ($file_meta) {
+            $file_info['size'] = $this->formatFileSize($file_meta['filesize']);
+        }
+
+        return $file_info;
+    }
+
+    protected function formatFileSize($size)
+    {
+        return number_format($size / 1024, 0) . ' KB'; // 单独处理文件大小格式化
     }
 
     protected function render()
     {
         $settings = $this->get_settings_for_display();
-        if (is_array($settings['files']) && !empty($settings['files'])) {
-?>
-            <style>
-                .elepm-download-list {}
-
-                .elepm-download-list .elepm-download-item td {
-                    width: 25%;
-                    background: #fff;
-                    border: none;
-                    text-align: center;
+        $render = false;
+        if (array_key_exists('files', $settings) && is_array($settings['files']) && !empty($settings['files'])) {
+            $table = '<table class="elepm-download-list">';
+            $table .= '<tbody>';
+            foreach ($settings['files'] as $key => $file) {
+                if (!isset($file['id']) || !is_numeric($file['id']) || $file['id'] <= 0) {
+                    continue; // 验证文件ID的合法性
                 }
-
-                .elepm-file-icon svg {
-                    width: 16px;
+                $file_info = $this->get_file_info($file['id']);
+                if (!empty($file_info)) {
+                    $table .= $this->renderTableRow($file_info, $settings);
+                    $render = true;
                 }
-            </style>
-            <table class="elepm-download-list">
-                <tbody>
-                    <?php foreach ($settings['files'] as $key => $file) : ?>
-                        <?php
-                        $path = parse_url($file['url'], PHP_URL_PATH);
-                        $file_info = pathinfo($path);
-                        $filename = $file_info['filename']; // 文件名（不带后缀）
-                        $extension = $file_info['extension']; // 后缀
-                        ?>
-                        <tr class="elepm-download-item">
-                            <?php if ($settings['icon']['value'] != '') : ?>
-                                <td class="elepm-file-icon">
-                                    <?php Icons_Manager::render_icon($settings['icon'], ['aria-hidden' => 'true']); ?>
-                                </td>
-                            <?php endif; ?>
-                            <td class="elepm-file-title">
-                                <?php echo $filename; ?>
-                            </td>
-                            <td class="elepm-file-type">
-                                <?php echo $extension; ?>
-                            </td>
-                            <td class="elepm-file-button">
-                                <a class='elepm-file-link' href="<?php echo $file['url']; ?>" download="">download</a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-<?php
+            }
+            $table .= '</tbody>';
+            $table .= '</table>';
+            if ($render) {
+                echo $table;
+            }
         }
     }
 
+    protected function renderTableRow($file_info, $settings)
+    {
+        $rowClass = 'elepm-download-list__row';
+        $titleOrName = $settings['show_title'] === 'yes' ? $file_info['title'] : $file_info['name'];
+        return '<tr class="' . esc_attr($rowClass) . '">
+                    <td class="elepm-download-list__title">' . esc_html($titleOrName) . '</td>
+                </tr>';
+    }
     // protected function content_template()
     // {
 
     // }
 }
+
+

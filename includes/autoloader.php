@@ -22,14 +22,14 @@ class Autoloader
     /**
      * 运行自动加载器
      * 
-     * @param string $default_path 默认的类路径，如果不提供，则使用ELEMENTOR_PRO_MAX_PATH。
+     * @param string $default_path 默认的类路径，如果不提供，则使用ELEPM_PATH。
      * @param string $default_namespace 默认的命名空间，如果不提供，则使用当前命名空间。
      */
     public static function run($default_path = '', $default_namespace = '')
     {
-        /* 如果未提供默认路径，则使用ELEMENTOR_PRO_MAX_PATH */
+        /* 如果未提供默认路径，则使用ELEPM_PATH */
         if ('' === $default_path) {
-            $default_path = ELEMENTOR_PRO_MAX_PATH;
+            $default_path = ELEPM_PATH;
         }
 
         /* 如果未提供默认命名空间，则使用当前命名空间 */

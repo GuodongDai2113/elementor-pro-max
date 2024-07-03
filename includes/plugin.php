@@ -5,6 +5,7 @@ namespace Elementor_Pro_Max;
 use Elementor_Pro_Max\Controls\Controls_Manager;
 use Elementor_Pro_Max\Widgets\Widgets_Manager;
 use Elementor_Pro_Max\Tags\Tags_Manager;
+use Elementor_Pro_Max\Site_Settings\Site_Settings_Manager;
 
 defined('ABSPATH') || exit;
 
@@ -29,6 +30,8 @@ final class Plugin
     public $widgets_manager = null;
 
     public $tags_manager = null;
+
+    public $site_settings_manager = null;
 
     /**
      * 静态方法用于获取类的单例实例。
@@ -73,8 +76,10 @@ final class Plugin
     {
         $this->init_components();
 
-        add_action( 'elementor/editor/after_enqueue_styles', [$this,'editor_style'] );
-        add_action( 'elementor/frontend/after_enqueue_styles', [$this,'frontend_style'] );
+        add_action('elementor/editor/after_enqueue_styles', [$this, 'editor_style']);
+        add_action('elementor/preview/enqueue_styles', [$this, 'editor_preview_style']);
+        add_action('elementor/frontend/after_enqueue_styles', [$this, 'frontend_style']);
+
     }
     public function pro_init()
     {
@@ -87,6 +92,8 @@ final class Plugin
         $this->widgets_manager = new Widgets_Manager();
 
         $this->tags_manager = new Tags_Manager();
+
+        $this->site_settings_manager = new Site_Settings_Manager();
     }
 
     /**
@@ -103,19 +110,23 @@ final class Plugin
     private function register_autoloader()
     {
         // 引入Elementor Pro自动加载器脚本
-        require_once ELEMENTOR_PRO_MAX_PATH . '/includes/autoloader.php';
+        require_once ELEPM_PATH . '/includes/autoloader.php';
 
         // 启动自动加载器
         Autoloader::run();
     }
 
-    public function editor_style() : void {
-        wp_enqueue_style('elepm-editor-style', ELEMENTOR_PRO_MAX_ASSETS_URL . 'css/elementor-editor.min.css');
+    public function editor_style(): void
+    {
+        wp_enqueue_style('elepm-editor-style', ELEPM_ASSETS_URL . 'css/elepm-editor.min.css');
+    }
+    public function editor_preview_style(): void
+    {
+        wp_enqueue_style('elepm-editor-preview-style', ELEPM_ASSETS_URL . 'css/elepm-editor-preview.min.css');
     }
 
-    public function frontend_style() : void {
-        wp_enqueue_style('elepm-frontend-style', ELEMENTOR_PRO_MAX_ASSETS_URL . 'css/elementor-pro-max.min.css');
+    public function frontend_style(): void
+    {
+        wp_enqueue_style('elepm-frontend-style', ELEPM_ASSETS_URL . 'css/elepm.min.css');
     }
-
-
 }

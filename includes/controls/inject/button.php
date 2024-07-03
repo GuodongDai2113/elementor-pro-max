@@ -29,28 +29,28 @@ class Button extends Base_Controls
         $element->add_control(
             'hover_background_animation',
             [
-                'label' => esc_html__('悬停背景动画', 'elementor-pro-max'),
+                'label' => esc_html__('悬停背景动画', 'elepm'),
                 'type' => Controls_Manager::SELECT,
                 'default' => '',
                 'options' => [
-                    '' => esc_html__('默认', 'elementor-pro-max'),
-                    'elepm-slide' => esc_html__('滑动', 'elementor-pro-max'),
-                    'elepm-zoom' => esc_html__('缩放', 'elementor-pro-max'),
-                    'elepm-circle-zoom' => esc_html__('圆形缩放', 'elementor-pro-max'),
+                    '' => esc_html__('默认', 'elepm'),
+                    'elepm-slide' => esc_html__('滑动', 'elepm'),
+                    'elepm-zoom' => esc_html__('缩放', 'elepm'),
+                    'elepm-circle-zoom' => esc_html__('圆形缩放', 'elepm'),
                 ],
             ]
         );
         $element->add_control(
             'slide_animation',
             [
-                'label' => esc_html__('方向', 'elementor-pro-max'),
+                'label' => esc_html__('方向', 'elepm'),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'left',
                 'options' => [
-                    'left' => esc_html__('向左', 'elementor-pro-max'),
-                    'right' => esc_html__('向右', 'elementor-pro-max'),
-                    'top' => esc_html__('向上', 'elementor-pro-max'),
-                    'bottom' => esc_html__('向下', 'elementor-pro-max'),
+                    'left' => esc_html__('向左', 'elepm'),
+                    'right' => esc_html__('向右', 'elepm'),
+                    'top' => esc_html__('向上', 'elepm'),
+                    'bottom' => esc_html__('向下', 'elepm'),
                 ],
                 'condition' => [
                     'hover_background_animation' => 'elepm-slide'
@@ -61,13 +61,13 @@ class Button extends Base_Controls
         $element->add_control(
             'zoom_animation',
             [
-                'label' => esc_html__('方向', 'elementor-pro-max'),
-                'description'=> esc_html__('注意圆形缩放是使用aspect-ratio，需要自 2021 年 9 月以后的浏览器。', 'elementor-pro-max'),
+                'label' => esc_html__('方向', 'elepm'),
+                'description'=> esc_html__('注意圆形缩放是使用aspect-ratio，需要自 2021 年 9 月以后的浏览器。', 'elepm'),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'in',
                 'options' => [
-                    'in' => esc_html__('放大', 'elementor-pro-max'),
-                    'out' => esc_html__('缩小', 'elementor-pro-max'),
+                    'in' => esc_html__('放大', 'elepm'),
+                    'out' => esc_html__('缩小', 'elepm'),
                 ],
                 'condition' => [
                     'hover_background_animation' => ['elepm-zoom','elepm-circle-zoom'],
@@ -78,7 +78,7 @@ class Button extends Base_Controls
         $element->add_control(
             'animation_color',
             [
-                'label' => esc_html__('背景颜色', 'elementor-pro-max'),
+                'label' => esc_html__('背景颜色', 'elepm'),
                 'type' => Controls_Manager::COLOR,
                 'default' => '#42a5f5',
                 'selectors' => [
@@ -90,7 +90,7 @@ class Button extends Base_Controls
             ]
 
         );
-        $this->section_end($element, $args);
+        $this->section_end($element, Controls_Manager::TAB_STYLE);
     }
 
     public function change_content($template, $widget){

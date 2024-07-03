@@ -6,7 +6,7 @@
  * Version:     1.0.0
  * Author:      JellyDai
  * Author URI:  
- * Text Domain: elementor-pro-max
+ * Text Domain: elepm
  *
  */
 
@@ -16,37 +16,37 @@ defined('ABSPATH') || exit;
 /**
  * 定义Elementor Pro Max 版本号。
  */
-define( 'ELEMENTOR_PRO_MAX_VERSION', '1.0.0' );
+define( 'ELEPM_VERSION', '1.0.0' );
 
 /**
  * 定义Elementor Pro Max 主文件的路径。
  */
-define( 'ELEMENTOR_PRO_MAX__FILE__', __FILE__ );
+define( 'ELEPM__FILE__', __FILE__ );
 
 /**
  * 定义Elementor Pro Max 插件的基础名称。
  */
-define( 'ELEMENTOR_PRO_MAX_PLUGIN_BASE', plugin_basename( ELEMENTOR_PRO_MAX__FILE__ ) );
+define( 'ELEPM_PLUGIN_BASE', plugin_basename( ELEPM__FILE__ ) );
 
 /**
  * 定义Elementor Pro Max 插件的目录路径。
  */
-define( 'ELEMENTOR_PRO_MAX_PATH', plugin_dir_path( ELEMENTOR_PRO_MAX__FILE__ ) );
+define( 'ELEPM_PATH', plugin_dir_path( ELEPM__FILE__ ) );
 
 /**
  * 定义Elementor Pro Max 插件的URL。
  */
-define( 'ELEMENTOR_PRO_MAX_URL', plugins_url( '/', ELEMENTOR_PRO_MAX__FILE__ ));
+define( 'ELEPM_URL', plugins_url( '/', ELEPM__FILE__ ));
 
 /**
  * 定义Elementor Pro Max 插件资产目录的路径。
  */
-define( 'ELEMENTOR_PRO_MAX_ASSETS_PATH', ELEMENTOR_PRO_MAX_PATH . 'assets/' );
+define( 'ELEPM_ASSETS_PATH', ELEPM_PATH . 'assets/' );
 
 /**
  * 定义Elementor Pro Max 插件资产目录的URL。
  */
-define( 'ELEMENTOR_PRO_MAX_ASSETS_URL', ELEMENTOR_PRO_MAX_URL . 'assets/' );
+define( 'ELEPM_ASSETS_URL', ELEPM_URL . 'assets/' );
 
 /**
  * 初始化Elementor Pro Max插件的函数。
@@ -56,11 +56,11 @@ define( 'ELEMENTOR_PRO_MAX_ASSETS_URL', ELEMENTOR_PRO_MAX_URL . 'assets/' );
  *
  * @since 1.0.0
  */
-function elementor_pro_max_run() {
+function elepm_run() {
     // 加载插件的主要文件以启动插件。
     require_once( __DIR__ . '/includes/plugin.php' );
     \Elementor_Pro_Max\Plugin::instance();
 }
 
-// 将'elementor_pro_max_run'函数绑定到'plugins_loaded'动作钩子。
-add_action( 'plugins_loaded', 'elementor_pro_max_run' );
+// 将'elepm_run'函数绑定到'plugins_loaded'动作钩子。
+add_action( 'plugins_loaded', 'elepm_run' );

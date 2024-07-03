@@ -7,3 +7,38 @@
 = 1.0.0 - 2024-06-07 =
 
 发布了再说
+
+            ?>
+            <table class="elepm-download-list">
+                <tbody>
+                    <?php if (array_key_exists('files', $settings)) : ?>
+                        <?php foreach ($settings['files'] as $key => $file) : ?>
+                            <?php
+                            var_dump(get_post($file['id']));
+                            
+                            $path = parse_url($file['url'], PHP_URL_PATH);
+                            $file_info = pathinfo($path);
+                            $filename = $file_info['filename']; // 文件名（不带后缀）
+                            $extension = $file_info['extension']; // 后缀
+                            ?>
+                            <tr class="elepm-download-item">
+                                <?php if ($settings['icon']['value'] != '') : ?>
+                                    <td class="elepm-file-icon">
+                                        <?php Icons_Manager::render_icon($settings['icon'], ['aria-hidden' => 'true']); ?>
+                                    </td>
+                                <?php endif; ?>
+                                <td class="elepm-file-title">
+                                    <?php echo $filename; ?>
+                                </td>
+                                <td class="elepm-file-type">
+                                    <?php echo $extension; ?>
+                                </td>
+                                <td class="elepm-file-button">
+                                    <a class='elepm-file-link' href="<?php echo $file['url']; ?>" download="">download</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+<?php

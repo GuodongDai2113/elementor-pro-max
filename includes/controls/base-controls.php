@@ -44,22 +44,22 @@ abstract class Base_Controls
 
     public function section_start($element,$section_type='style'){
         $element->start_controls_section(
-            "elepm_section_".$section_type,
+            "elepm_".$section_type,
             [
                 'tab' => $section_type,
-                'label' => esc_html__('ELEPM拓展', 'elementor-pro-max' ),
+                'label' => esc_html__('ELEPM 拓展', 'elepm' ),
             ]
         );
     }
 
-    public function section_end($element){
-        $this->note($element);
+    public function section_end($element,$section_type='style'){
+        $this->note($element,$section_type);
         $element->end_controls_section();
     }
 
-    public function note($element){
+    public function note($element,$section_type){
         $element->add_control(
-			'elepm_note',
+			'elepm_note_'.$section_type,
 			[
 				'label' => '',
 				'type' => \Elementor\Controls_Manager::RAW_HTML,

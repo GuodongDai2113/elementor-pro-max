@@ -5,6 +5,7 @@ namespace Elementor_Pro_Max\Controls;
 use Elementor_Pro_Max\Controls\Inject\Button;
 use Elementor_Pro_Max\Controls\Inject\Heading;
 use Elementor_Pro_Max\Controls\Inject\Image;
+use Elementor_Pro_Max\Controls\Inject\Search_Form;
 
 defined('ABSPATH') || exit;
 
@@ -21,10 +22,11 @@ class Controls_Manager
 
     public function __construct()
     {
-        $button = new Button();
-        $this->inject_controls($button);
+
+        $this->inject_controls(new Button());
         $this->inject_controls(new Heading());
         $this->inject_controls(new Image());
+        $this->inject_controls(new Search_Form());
 
         add_filter('elementor/widget/render_content', [$this, 'change_widget_content'], 10, 2);
         add_filter('elementor/widget/print_template', [$this, 'change_widget_template'], 10, 2);
